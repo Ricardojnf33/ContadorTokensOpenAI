@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Tokens</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #a567e2;
+        }
+
+        .container {
+            background-color: #3a3a3a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #a567e2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #a567e2;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #a567e2;
+            color: #2a2a2a;
+        }
+
+        tr:hover {
+            background-color: #4a4a4a;
+        }
+
+        button, .custom-file-upload {
+            background-color: #a567e2;
+            color: #2a2a2a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover, .custom-file-upload:hover {
+            background-color: #c78af4;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+        }
+
+        /* Estilo para o logotipo */
+        #logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px; /* Ajuste conforme o tamanho desejado */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Inclusão do logotipo -->
+    <img id="logo" src="{{ url_for('static', filename='meu_logotipo.png') }}" alt="Logotipo">
+
+    <div class="container">
+        <h1>Calculadora de Tokens</h1>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="file-upload" class="custom-file-upload">
+                Escolher arquivo
+            </label>
+            <input id="file-upload" type="file" name="file" style="display:none;">
+            <button type="submit">Calcular</button>
+        </form>
+        {% if request.method == 'POST' %}
+        <p>Total de tokens analisados: {{ total_tokens }}</p> <!-- Exibição da quantidade de tokens -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Custo Entrada (USD)</th>
+                    <th>Custo Entrada (BRL)</th>
+                    <th>Custo Saída (USD)</th>
+                    <th>Custo Saída (BRL)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in custos %}
+                <tr>
+                    <td>{{ item.modelo }}</td>
+                    <td>${{ '%.2f'|format(item.custo_entrada_usd) }}</td>
+                    <td>R${{ '%.2f'|format(item.custo_entrada_brl) }}</td>
+                    <td>${{ '%.2f'|format(item.custo_saida_usd) }}</td>
+                    <td>R${{ '%.2f'|format(item.custo_saida_brl) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    <script>
+        document.getElementById("file-upload").onchange = function () {
+            document.querySelector(".custom-file-upload").textContent = this.files[0].name;
+        };
+    </script>
+</body>
+</html>
+
+
