@@ -1,4 +1,4 @@
-# Calculadora de Custos de Modelos de Linguagem
+# Calculadora de Custos de Modelos de Linguagem OpenAI
 
 [![Flask](https://img.shields.io/badge/Flask-v2.2.2-blue)](https://flask.palletsprojects.com) 
 [![Python](https://img.shields.io/badge/Python-v3.x-blue)](https://www.python.org/)
